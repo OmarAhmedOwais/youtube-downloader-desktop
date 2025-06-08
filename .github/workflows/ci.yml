@@ -42,7 +42,7 @@ jobs:
 
       - name: Verify build can be created
         run: |
-          npm run build --if-present || echo "Build script not available, skipping..."
+          npm run build --if-present
 
       - name: Test Electron app packaging (Ubuntu)
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '18.x'

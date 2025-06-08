@@ -84,7 +84,6 @@ pids/
 *.pid.lock
 
 # Coverage directory
-coverage/
 
 # Database files
 *.db
