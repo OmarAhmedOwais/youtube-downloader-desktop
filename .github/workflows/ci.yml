@@ -1,0 +1,102 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint --if-present
+
+      - name: Run tests
+        run: npm test --if-present
+
+      - name: Build application
+        run: npm run build --if-present
+
+      - name: Test electron app (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" npm start &
+          sleep 10
+          pkill -f electron || true
+
+      - name: Test electron app (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          Start-Process npm -ArgumentList "start" -PassThru
+          Start-Sleep -Seconds 10
+          Get-Process | Where-Object {$_.ProcessName -eq "electron"} | Stop-Process -Force
+        shell: powershell
+
+      - name: Test electron app (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          npm start &
+          sleep 10
+          pkill -f electron || true
+
+  build:
+    needs: test
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run build:linux
+
+      - name: Build for Windows
+        if: matrix.os == 'windows-latest'
+        run: npm run build:win
+
+      - name: Build for macOS
+        if: matrix.os == 'macos-latest'
+        run: npm run build:mac
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.os }}
+          path: dist/
+          retention-days: 30

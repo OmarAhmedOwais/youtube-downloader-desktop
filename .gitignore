@@ -1,0 +1,98 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build outputs
+dist/
+build/
+*.exe
+*.dmg
+*.AppImage
+*.deb
+*.rpm
+*.tgz
+electron-builder-output/
+
+# Electron
+.electron/
+release/
+
+# Downloads (but keep .gitkeep)
+downloads/*
+!downloads/.gitkeep
+# Specific video/audio formats in downloads
+downloads/*.mp4
+downloads/*.webm
+downloads/*.mkv
+downloads/*.avi
+downloads/*.mp3
+downloads/*.m4a
+downloads/*.wav
+downloads/*.flac
+
+# IDE and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store*
+Thumbs.db
+desktop.ini
+.Spotlight-V100
+.Trashes
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development.local
+.env.test.local
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Test files
+test-*.js
+*.test.js
+__tests__/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.npm
+.eslintcache
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+
+# Configuration files with sensitive data
+config.local.js
+secrets.json

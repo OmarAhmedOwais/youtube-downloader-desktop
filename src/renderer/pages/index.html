@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>YouTube Downloader</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎬 YouTube Downloader</h1>
+
+      <div class="section">
+        <h3>📁 Download Location</h3>
+        <div class="directory-container">
+          <div class="directory-display" id="currentDirectory">
+            <span id="directoryPath">Loading...</span>
+          </div>
+          <button id="selectDirectoryBtn">📂 Select Folder</button>
+        </div>
+      </div>
+      <div class="section">
+        <h3>📹 Download Single Video</h3>
+        <input id="videoUrl" placeholder="Enter YouTube video URL" />
+        <div class="button-group">
+          <button id="getVideoQualitiesBtn">🔍 Get Available Qualities</button>
+          <button id="cancelVideoQualitiesBtn" class="cancel-btn hidden">
+            ❌ Cancel
+          </button>
+        </div>
+
+        <div class="format-container hidden" id="videoFormatContainer">
+          <select id="videoQualitySelect">
+            <option value="best">Best Quality</option>
+          </select>
+          <select id="videoFormatSelect">
+            <option value="mp4">MP4</option>
+            <option value="webm">WebM</option>
+            <option value="mkv">MKV</option>
+            <option value="any">Any Format</option>
+          </select>
+        </div>
+
+        <div class="hidden" id="videoDownloadContainer">
+          <button id="downloadVideoBtn">⬇️ Download Video</button>
+          <button id="cancelVideoBtn" class="cancel-btn hidden">
+            ❌ Cancel
+          </button>
+        </div>
+
+        <div id="videoStatus" class="status-info hidden"></div>
+      </div>
+      <div class="section">
+        <h3>📋 Download Playlist</h3>
+        <input id="playlistUrl" placeholder="Enter YouTube playlist URL" />
+        <div class="button-group">
+          <button id="getPlaylistQualitiesBtn">
+            🔍 Get Available Qualities
+          </button>
+          <button id="cancelPlaylistQualitiesBtn" class="cancel-btn hidden">
+            ❌ Cancel
+          </button>
+        </div>
+
+        <div class="format-container hidden" id="playlistFormatContainer">
+          <select id="playlistQualitySelect">
+            <option value="best">Best Quality</option>
+          </select>
+          <select id="playlistFormatSelect">
+            <option value="mp4">MP4</option>
+            <option value="webm">WebM</option>
+            <option value="mkv">MKV</option>
+            <option value="any">Any Format</option>
+          </select>
+        </div>
+
+        <div class="hidden" id="playlistDownloadContainer">
+          <button id="downloadPlaylistBtn">⬇️ Download Playlist</button>
+          <button id="cancelPlaylistBtn" class="cancel-btn hidden">
+            ❌ Cancel
+          </button>
+        </div>
+
+        <div id="playlistStatus" class="status-info hidden"></div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-header">
+          <h3>📊 Progress</h3>
+          <div id="progressPercentage">0%</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill">0%</div>
+        </div>
+        <div id="progress"></div>
+      </div>
+    </div>
+
+    <script src="../js/renderer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+{
+  "name": "youtube-downloader-desktop",
+  "version": "1.0.0",
+  "description": "A modern desktop application for downloading YouTube videos and playlists",
+  "main": "src/main/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "clean": "rm -rf build/ dist/",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": [
+    "youtube",
+    "downloader",
+    "electron",
+    "desktop",
+    "video",
+    "playlist",
+    "cross-platform",
+    "open-source",
+    "yt-dlp"
+  ],
+  "author": "YouTube Downloader Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OmarAhmedOwais/youtube-downloader-desktop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OmarAhmedOwais/youtube-downloader-desktop/issues"
+  },
+  "homepage": "https://github.com/OmarAhmedOwais/youtube-downloader-desktop#readme",
+  "build": {
+    "appId": "com.youtube-downloader.desktop",
+    "productName": "YouTube Downloader",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "downloads/.gitkeep",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icons/app-icon.svg"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icons/app-icon.svg"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icons/app-icon.svg"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^36.4.0",
+    "electron-builder": "^24.0.0"
+  }
+}

@@ -1,0 +1,221 @@
+/* YouTube Downloader Styles */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 20px;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.section h3 {
+  margin-top: 0;
+  color: #444;
+  border-bottom: 2px solid #007acc;
+  padding-bottom: 5px;
+}
+
+input,
+button,
+select {
+  padding: 12px;
+  margin: 8px 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+button {
+  background: #007acc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background: #005a9e;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background: #dc3545;
+  margin-left: 10px;
+  width: auto;
+  display: inline-block;
+  padding: 12px 20px;
+}
+
+.cancel-btn:hover {
+  background: #c82333;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.button-group button {
+  width: auto;
+  flex: 1;
+}
+
+.button-group .cancel-btn {
+  flex: 0 0 auto;
+  min-width: 100px;
+}
+
+.format-container {
+  display: flex;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.format-container select {
+  flex: 1;
+}
+
+.progress-container {
+  margin-top: 20px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  background: #e0e0e0;
+  border-radius: 10px;
+  height: 20px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #007acc, #0099ff);
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#progress {
+  height: 200px;
+  overflow-y: auto;
+  background: #1e1e1e;
+  color: #00ff00;
+  padding: 15px;
+  white-space: pre-wrap;
+  font-family: "Consolas", "Monaco", monospace;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.status-info {
+  background: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+  color: #1976d2;
+}
+
+.status-info.success {
+  background: #e8f5e8;
+  border-color: #4caf50;
+  color: #2e7d32;
+}
+
+.status-info.error {
+  background: #ffebee;
+  border-color: #f44336;
+  color: #c62828;
+}
+
+.status-info.warning {
+  background: #fff3e0;
+  border-color: #ff9800;
+  color: #ef6c00;
+}
+
+/* Directory selection styles */
+.directory-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.directory-display {
+  flex: 1;
+  padding: 12px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.directory-display span {
+  color: #666;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+#selectDirectoryBtn {
+  width: auto;
+  min-width: 150px;
+  flex-shrink: 0;
+  background: #007acc;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#selectDirectoryBtn:hover {
+  background: #005a9e;
+}
