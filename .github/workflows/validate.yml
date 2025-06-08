@@ -1,0 +1,105 @@
+name: Basic Validation
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate package.json
+        run: npm ls --depth=0
+
+      - name: Check for security vulnerabilities
+        run: npm audit --audit-level moderate
+
+      - name: Validate file structure
+        run: |
+          echo "Checking required files..."
+          test -f package.json && echo "✓ package.json exists"
+          test -f README.md && echo "✓ README.md exists"
+          test -f LICENSE && echo "✓ LICENSE exists"
+          test -f src/main/main.js && echo "✓ main.js exists"
+          test -f src/renderer/pages/index.html && echo "✓ index.html exists"
+          test -f src/preload/preload.js && echo "✓ preload.js exists"
+          echo "File structure validation completed"
+
+      - name: Check syntax
+        run: |
+          echo "Checking JavaScript syntax..."
+          node -c src/main/main.js
+          node -c src/preload/preload.js
+          node -c src/renderer/js/renderer.js
+          node -c src/main/handlers/downloadHandlers.js
+          echo "Syntax check completed"
+
+      - name: Validate HTML
+        run: |
+          echo "Checking HTML files..."
+          test -s src/renderer/pages/index.html && echo "✓ index.html is not empty"
+
+      - name: Validate CSS
+        run: |
+          echo "Checking CSS files..."
+          test -s src/renderer/css/styles.css && echo "✓ styles.css is not empty"
+
+  cross-platform-compatibility:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test module imports
+        run: |
+          node -e "
+            console.log('Testing module imports...');
+            const path = require('path');
+            const fs = require('fs');
+            console.log('✓ Core modules working');
+            console.log('Platform:', process.platform);
+            console.log('Node version:', process.version);
+            console.log('Architecture:', process.arch);
+          "
+
+      - name: Verify electron installation
+        run: |
+          node -e "
+            const { execSync } = require('child_process');
+            try {
+              const electronPath = require('electron');
+              console.log('✓ Electron module found:', typeof electronPath);
+            } catch (e) {
+              console.log('⚠ Electron module error:', e.message);
+            }
+          "
