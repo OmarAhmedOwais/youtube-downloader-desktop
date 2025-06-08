@@ -68,6 +68,8 @@ temp/
 test-*.js
 *.test.js
 __tests__/
+test/results/
+coverage/
 
 # Cache directories
 .cache/
