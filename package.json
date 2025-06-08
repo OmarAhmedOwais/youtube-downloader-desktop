@@ -7,6 +7,9 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "test": "node test/validate.js",
+    "test:syntax": "node -c src/main/main.js && node -c src/preload/preload.js && node -c src/renderer/js/renderer.js",
+    "validate": "npm run test:syntax && npm audit --audit-level moderate",
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
