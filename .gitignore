@@ -14,6 +14,7 @@ build/
 *.deb
 *.rpm
 *.tgz
+*.zip
 electron-builder-output/
 
 # Electron
@@ -84,7 +85,6 @@ pids/
 *.pid.lock
 
 # Coverage directory
-coverage/
 
 # Database files
 *.db
@@ -98,3 +98,11 @@ coverage/
 # Configuration files with sensitive data
 config.local.js
 secrets.json
+
+# Distribution packages (prevent accidental publishing)
+YouTube-Downloader-Desktop-v*.zip
+*.release.zip
+release-*
+
+# GitHub publishing prevention
+.github/workflows-disabled/

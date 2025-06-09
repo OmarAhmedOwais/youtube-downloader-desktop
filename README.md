@@ -86,18 +86,40 @@ youtube-downloader-desktop/
 
 ## 🛠️ Installation & Setup
 
-### Prerequisites
+### 📥 For End Users (Recommended)
 
-- Node.js (v16 or higher)
+**Ready-to-use application - no setup required!**
+
+#### Windows Installation
+
+1. **Download** `YouTube Downloader 1.0.0.exe` from the [releases](https://github.com/OmarAhmedOwais/youtube-downloader-desktop/releases) or `build/` folder
+2. **Run** the executable - no installation needed!
+3. **First run**: Windows may show a security warning (click "More info" → "Run anyway")
+4. **Downloads** will be saved to `Documents/YouTube Downloader/Downloads/`
+
+> 📖 **Detailed Installation Guide**: See [INSTALLATION.md](INSTALLATION.md) for complete instructions for Windows, macOS, and Linux.
+
+#### System Requirements
+
+- **Windows**: 10/11 (x64)
+- **RAM**: 4GB minimum, 8GB recommended
+- **Storage**: 350MB + download space
+- **Internet**: Required for downloading
+
+### 🔧 For Developers
+
+#### Prerequisites
+
+- Node.js (v18 or higher)
 - npm or yarn
-- yt-dlp (automatically handled)
+- Git
 
-### Installation Steps
+#### Development Setup
 
-1. **Clone or Download the Project**
+1. **Clone the Repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/OmarAhmedOwais/youtube-downloader-desktop.git
    cd youtube-downloader-desktop
    ```
 
@@ -107,20 +129,31 @@ youtube-downloader-desktop/
    npm install
    ```
 
-3. **Install yt-dlp** (if not already installed)
+3. **Run in Development Mode**
 
-   ```bash
-   # Windows (using pip)
-   pip install yt-dlp
-
-   # Or download from GitHub releases
-   # https://github.com/yt-dlp/yt-dlp/releases
-   ```
-
-4. **Run the Application**
    ```bash
    npm start
    ```
+
+4. **Build for Distribution**
+
+   ```bash
+   # Windows
+   npm run build:win
+
+   # macOS
+   npm run build:mac
+
+   # Linux
+   npm run build:linux
+   ```
+
+#### Building Notes
+
+- **Windows**: Creates portable executable
+- **macOS**: Requires Xcode command line tools
+- **Linux**: Creates AppImage
+- **Dependencies**: yt-dlp is automatically included in builds
 
 ## 🎯 How to Use
 
