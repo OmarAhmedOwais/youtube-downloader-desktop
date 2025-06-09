@@ -45,6 +45,7 @@
   "build": {
     "appId": "com.youtube-downloader.desktop",
     "productName": "YouTube Downloader",
+    "publish": "never",
     "directories": {
       "output": "build"
     },

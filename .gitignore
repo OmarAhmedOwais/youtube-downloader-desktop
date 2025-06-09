@@ -98,3 +98,11 @@ pids/
 # Configuration files with sensitive data
 config.local.js
 secrets.json
+
+# Distribution packages (prevent accidental publishing)
+YouTube-Downloader-Desktop-v*.zip
+*.release.zip
+release-*
+
+# GitHub publishing prevention
+.github/workflows-disabled/
