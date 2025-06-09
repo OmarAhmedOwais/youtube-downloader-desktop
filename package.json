@@ -15,7 +15,11 @@
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",
     "clean": "rm -rf build/ dist/",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "dist:clean": "powershell -Command \"Get-ChildItem -Path . -Name 'YouTube-Downloader-Desktop-v*.zip' | Remove-Item -Force -Verbose\"",
+    "dist:package": "powershell -Command \"$version = (Get-Content package.json | ConvertFrom-Json).version; Compress-Archive -Path 'build/YouTube Downloader $version.exe', 'build/Enhanced-Install-YouTube-Downloader.bat', 'build/README-DISTRIBUTION.md' -DestinationPath \"YouTube-Downloader-Desktop-v$version-COMPLETE.zip\" -Force; Write-Host \"Distribution package created: YouTube-Downloader-Desktop-v$version-COMPLETE.zip\" -ForegroundColor Green\"",
+    "dist:verify": "powershell -Command \"$version = (Get-Content package.json | ConvertFrom-Json).version; $zipFile = \"YouTube-Downloader-Desktop-v$version-COMPLETE.zip\"; if (Test-Path $zipFile) { $size = [math]::Round((Get-Item $zipFile).Length / 1MB, 2); Write-Host \"✓ Distribution package verified: $zipFile ($size MB)\" -ForegroundColor Green; Expand-Archive -Path $zipFile -DestinationPath \"temp-verify\" -Force; $contents = Get-ChildItem \"temp-verify\" -Recurse | Select-Object Name, Length; Write-Host \"Package contents:\" -ForegroundColor Cyan; $contents | Format-Table -AutoSize; Remove-Item \"temp-verify\" -Recurse -Force } else { Write-Host \"✗ Distribution package not found: $zipFile\" -ForegroundColor Red }\"",
+    "dist:create": "npm run dist:clean && npm run build:win && npm run dist:package && npm run dist:verify"
   },
   "keywords": [
     "youtube",
@@ -42,7 +46,7 @@
     "appId": "com.youtube-downloader.desktop",
     "productName": "YouTube Downloader",
     "directories": {
-      "output": "dist"
+      "output": "build"
     },
     "files": [
       "src/**/*",
@@ -50,26 +54,39 @@
       "downloads/.gitkeep",
       "node_modules/**/*"
     ],
+    "asarUnpack": [
+      "node_modules/ffmpeg-ffprobe-yt-dlp-static-electron/**/*"
+    ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icons/app-icon.svg"
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "verifyUpdateCodeSignature": false
     },
     "mac": {
-      "target": "dmg",
-      "icon": "assets/icons/app-icon.svg"
+      "target": "dmg"
     },
     "linux": {
-      "target": "AppImage",
-      "icon": "assets/icons/app-icon.svg"
+      "target": "AppImage"
     },
+    "forceCodeSigning": false,
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "compression": "store"
   },
-  "dependencies": {},
+  "dependencies": {
+    "electron-util": "^0.18.1",
+    "ffmpeg-ffprobe-yt-dlp-static-electron": "^1.0.4"
+  },
   "devDependencies": {
     "electron": "^36.4.0",
-    "electron-builder": "^24.0.0"
+    "electron-builder": "^26.0.12"
   }
 }

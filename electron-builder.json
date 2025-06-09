@@ -1,0 +1,29 @@
+{
+  "appId": "com.youtube-downloader.desktop",
+  "productName": "YouTube Downloader",
+  "directories": {
+    "output": "build"
+  },
+  "files": [
+    "src/**/*",
+    "assets/**/*",
+    "downloads/.gitkeep",
+    "node_modules/**/*"
+  ],
+  "win": {
+    "target": {
+      "target": "portable",
+      "arch": "x64"
+    }
+  },
+  "mac": {
+    "target": "dmg",
+    "identity": null
+  },
+  "linux": {
+    "target": "AppImage"
+  },
+  "compression": "store",
+  "nodeGypRebuild": false,
+  "buildVersion": "1.0.0"
+}

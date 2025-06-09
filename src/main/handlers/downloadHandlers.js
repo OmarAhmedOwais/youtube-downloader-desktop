@@ -3,6 +3,7 @@ import { APP_CONFIG } from "../../config/appConfig.js";
 import { extractProgress } from "../../utils/fileUtils.js";
 import fs from "fs";
 import path from "path";
+import ytdlpPackage from "ffmpeg-ffprobe-yt-dlp-static-electron";
 
 // Track active downloads and quality checks
 export let activeDownloads = {
@@ -20,6 +21,24 @@ let downloadInfo = {
   video: { outputPath: null, partialFiles: [] },
   playlist: { outputPath: null, partialFiles: [] },
 };
+
+// Get the correct yt-dlp path (bundled or system)
+function getYtDlpPath() {
+  try {
+    // Try to use bundled yt-dlp first
+    if (ytdlpPackage && ytdlpPackage.ytdlp && ytdlpPackage.ytdlp.path) {
+      const ytdlpPath = ytdlpPackage.ytdlp.path;
+      console.log("Using bundled yt-dlp:", ytdlpPath);
+      return ytdlpPath;
+    }
+  } catch (error) {
+    console.log("Error accessing bundled yt-dlp:", error.message);
+  }
+
+  console.log("Bundled yt-dlp not available, falling back to system yt-dlp");
+  // Fallback to system yt-dlp
+  return "yt-dlp";
+}
 
 // Function to clean up partial files
 function cleanupPartialFiles(type) {
@@ -100,8 +119,7 @@ export function handleGetVideoQualities(event, videoURL) {
     if (activeQualityChecks.video) {
       activeQualityChecks.video.kill("SIGKILL");
     }
-
-    const ytProcess = spawn("yt-dlp", ["-F", "--no-playlist", videoURL]);
+    const ytProcess = spawn(getYtDlpPath(), ["-F", "--no-playlist", videoURL]);
     activeQualityChecks.video = ytProcess;
     let output = "";
 
@@ -139,8 +157,11 @@ export function handleGetPlaylistQualities(event, playlistURL) {
     if (activeQualityChecks.playlist) {
       activeQualityChecks.playlist.kill("SIGKILL");
     }
-
-    const ytProcess = spawn("yt-dlp", ["-F", "--flat-playlist", playlistURL]);
+    const ytProcess = spawn(getYtDlpPath(), [
+      "-F",
+      "--flat-playlist",
+      playlistURL,
+    ]);
     activeQualityChecks.playlist = ytProcess;
     let output = "";
 
@@ -213,7 +234,7 @@ export function handleDownloadVideo(
       "--abort-on-error",
       videoURL,
     ];
-    const ytProcess = spawn("yt-dlp", args, {
+    const ytProcess = spawn(getYtDlpPath(), args, {
       detached: false, // Keep attached so we can kill the process group
       stdio: "pipe",
     });
@@ -304,7 +325,7 @@ export function handleDownloadPlaylist(
       "--abort-on-error",
       playlistURL,
     ];
-    const ytProcess = spawn("yt-dlp", args, {
+    const ytProcess = spawn(getYtDlpPath(), args, {
       detached: false, // Keep attached so we can kill the process group
       stdio: "pipe",
     });

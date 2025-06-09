@@ -16,7 +16,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Current download directory (default to downloads folder)
-let currentDownloadDir = path.join(__dirname, "../../downloads");
+// Use app.getPath('documents') for packaged app, fallback to local downloads for development
+let currentDownloadDir;
+if (app.isPackaged) {
+  // For packaged app, use user's Documents folder
+  currentDownloadDir = path.join(
+    app.getPath("documents"),
+    "YouTube Downloader",
+    "Downloads"
+  );
+} else {
+  // For development, use local downloads folder
+  currentDownloadDir = path.join(__dirname, "../../downloads");
+}
 
 // Ensure downloads directory exists
 ensureDirectoryExists(currentDownloadDir);
@@ -59,11 +71,13 @@ function handleGetDownloadDirectory() {
 
 function createWindow() {
   console.log("Creating window...");
-  console.log("Preload path:", path.join(__dirname, "../preload/preload.js"));
-  console.log(
-    "HTML path:",
-    path.join(__dirname, "../renderer/pages/index.html")
-  );
+
+  // Use relative paths that work with ASAR packaging
+  const preloadPath = path.join(__dirname, "../preload/preload.js");
+  const htmlPath = path.join(__dirname, "../renderer/pages/index.html");
+
+  console.log("Preload path:", preloadPath);
+  console.log("HTML path:", htmlPath);
 
   const win = new BrowserWindow({
     width: APP_CONFIG.window.width,
@@ -71,13 +85,15 @@ function createWindow() {
     minWidth: APP_CONFIG.window.minWidth,
     minHeight: APP_CONFIG.window.minHeight,
     webPreferences: {
-      preload: path.join(__dirname, "../preload/preload.js"),
+      preload: preloadPath,
       nodeIntegration: false,
       contextIsolation: true,
     },
-    icon: path.join(__dirname, "../../assets/icons/app-icon.svg"),
+    // Remove icon for now to avoid path issues
+    // icon: iconPath,
   });
-  win.loadFile(path.join(__dirname, "../renderer/pages/index.html"));
+
+  win.loadFile(htmlPath);
 
   console.log("Window created successfully");
   // Register IPC handlers after the window is created
